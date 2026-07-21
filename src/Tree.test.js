@@ -29,9 +29,29 @@ describe("Testing Tree Class' methods", () => {
     tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
   });
 
-  test("Includes method works when the value is the root", () => {
+  test("includes(data) works when the value is the root", () => {
     const tree2 = new Tree([100]);
     expect(tree.includes(8)).toBe(true);
     expect(tree2.includes(100)).toBe(true);
+  });
+
+  test("inlcudes(data) works when value is a leaf", () => {
+    const tree2 = new Tree([50, 25, 100]);
+    expect(tree2.includes(100)).toBe(true);
+    expect(tree2.includes(25)).toBe(true);
+    expect(tree.includes(6345)).toBe(true);
+    expect(tree.includes(3)).toBe(true);
+  });
+
+  test("includes(data) works when value is anywhere in the Tree", () => {
+    const tree2 = new Tree([50, 100, 25, 0]);
+    expect(tree2.includes(50)).toBe(true);
+    expect(tree.includes(324)).toBe(true);
+    expect(tree.includes(1)).toBe(true);
+  });
+
+  test("includes(data) returns false when value is not in the Tree", () => {
+    expect(tree.includes(293241)).toBe(false);
+    expect(tree.includes(99)).toBe(false);
   });
 });

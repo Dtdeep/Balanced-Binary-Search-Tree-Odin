@@ -42,4 +42,17 @@ export default class Tree {
     console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
     this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
+
+  includes(data, root = this.#root) {
+    if (root == null) return false;
+    if (root.data == data) return true;
+    if (data < root.data) {
+      return this.includes(data, root.left);
+    }
+    if (data > root.data) {
+      return this.includes(data, root.right);
+    }
+
+    return false;
+  }
 }
