@@ -13,17 +13,17 @@ export default class Tree {
   }
 
   #sortedArrayToBSTRecur(arr, start, end) {
-    if (start > end) return null;
-    let mid = start + Math.floor((end - start) / 2);
-    let root = new Node(arr[mid]);
+    if (start > end) {
+      return null;
+    }
+    let mid = Math.floor((end + start) / 2);
+    const node = new Node(arr[mid]);
 
-    // Divide from middle element
-    root.left = this.#sortedArrayToBSTRecur(arr, start, mid - 1);
-    root.right = this.#sortedArrayToBSTRecur(arr, mid + 1, end);
+    node.left = this.#sortedArrayToBSTRecur(arr, start, mid - 1);
+    node.right = this.#sortedArrayToBSTRecur(arr, mid + 1, end);
 
-    return root;
+    return node;
   }
-
   #buildTree(array) {
     const sortedUniqueArray = removeDuplicatesSorted(mergeSort(array));
     return this.#sortedArrayToBSTRecur(
@@ -31,5 +31,15 @@ export default class Tree {
       0,
       sortedUniqueArray.length - 1,
     );
+  }
+
+  prettyPrint(node = this.#root, prefix = "", isLeft = true) {
+    if (node === null || node === undefined) {
+      return;
+    }
+
+    this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 }
