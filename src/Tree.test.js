@@ -80,4 +80,13 @@ describe("Testing Tree Class' command methods", () => {
     expect(emptyTree.root.right.data).toBe(6);
     expect(emptyTree.root.right.right.data).toBe(7);
   });
+
+  test("insert(data) should do nothing if the data inserted is already in the tree", () => {
+    const emptyTree = new Tree();
+    emptyTree.insert(5);
+    emptyTree.insert(5);
+    expect(emptyTree.root.data).toBe(5);
+    expect(emptyTree.root.left).toBe(null);
+    expect(emptyTree.root.right).toBe(null);
+  });
 });
