@@ -23,6 +23,7 @@ function merge(arr1, arr2) {
 }
 
 export default function mergeSort(arr) {
+  if (arr == null) return [];
   if (arr.length <= 1) return arr;
 
   let mid = Math.floor(arr.length / 2);

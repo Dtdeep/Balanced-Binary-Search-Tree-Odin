@@ -55,4 +55,30 @@ export default class Tree {
 
     return false;
   }
+
+  insert(data, root = this.#root) {
+    if (this.#root == null) {
+      this.#root = new Node(data);
+      return;
+    }
+    if (this.includes(data)) return;
+
+    if (root == null) return new Node(data);
+
+    if (data < root.data) {
+      root.left = this.insert(data, root.left);
+    }
+    if (data > root.data) {
+      root.right = this.insert(data, root.right);
+    }
+
+    return root;
+  }
 }
+
+const emptyTree = new Tree();
+emptyTree.insert(3);
+emptyTree.insert(2);
+emptyTree.insert(1);
+
+emptyTree.prettyPrint();
