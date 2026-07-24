@@ -57,14 +57,18 @@ describe("Testing Tree Class' query methods", () => {
 });
 
 describe("Testing Tree Class' command methods", () => {
+  let deletionTesting;
+  let emptyTree;
+  beforeEach(() => {
+    deletionTesting = new Tree([1, 2, 3]);
+    emptyTree = new Tree();
+  });
   test("insert(data) makes a new root if root is null", () => {
-    const emptyTree = new Tree();
     emptyTree.insert(100);
     expect(emptyTree.root.data).toBe(100);
   });
 
   test("insert(data) creates a left node when it is lower than root", () => {
-    const emptyTree = new Tree();
     emptyTree.insert(3);
     emptyTree.insert(2);
     emptyTree.insert(1);
@@ -73,7 +77,6 @@ describe("Testing Tree Class' command methods", () => {
   });
 
   test("insert(data) creates a left node when it is lower than root", () => {
-    const emptyTree = new Tree();
     emptyTree.insert(5);
     emptyTree.insert(6);
     emptyTree.insert(7);
@@ -82,11 +85,64 @@ describe("Testing Tree Class' command methods", () => {
   });
 
   test("insert(data) should do nothing if the data inserted is already in the tree", () => {
-    const emptyTree = new Tree();
     emptyTree.insert(5);
     emptyTree.insert(5);
     expect(emptyTree.root.data).toBe(5);
     expect(emptyTree.root.left).toBe(null);
     expect(emptyTree.root.right).toBe(null);
+  });
+
+  test("deleteItem(data) should be able to delete a leaf", () => {
+    deletionTesting.deleteItem(1);
+    deletionTesting.deleteItem(3);
+
+    expect(deletionTesting.root.left).toBe(null);
+    expect(deletionTesting.root.right).toBe(null);
+  });
+
+  test("deleteItem(data) should be able to delete a node with one child", () => {
+    const deletionTesting2 = new Tree([2, 4, 6]);
+    deletionTesting2.insert(5);
+    deletionTesting2.deleteItem(6);
+    expect(deletionTesting2.root.right.data).toBe(5);
+  });
+
+  test("deleteItem(data) should be able to delete a node with two child", () => {
+    deletionTesting.deleteItem(2);
+    expect(deletionTesting.root.data).toBe(3);
+  });
+
+  test("deleteItem(data) should be able to delete a node anywhere in the Tree", () => {
+    const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+    tree.deleteItem(67);
+    expect(tree.root.right.data).toBe(324);
+  });
+
+  test("deleteItem(data) should be able to delete a node anywhere in the Tree", () => {
+    const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+    tree.deleteItem(4);
+    expect(tree.root.left.data).toBe(5);
+  });
+
+  test("levelOrderForEach(callback) should return an error if no callback funciton is given", () => {
+    expect(() => {
+      emptyTree.levelOrderForEach();
+    }).toThrow(Error);
+  });
+
+  test("levelOrderForEach(callback) should traverse", () => {
+    const arrayTest = [];
+    deletionTesting.levelOrderForEach((currentNode) => {
+      arrayTest.push(currentNode.data);
+    });
+    expect(arrayTest).toEqual([2, 1, 3]);
+  });
+  test("levelOrderForEach(callback) should traverse a long Balanced BST", () => {
+    const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+    const arrayTest = [];
+    tree.levelOrderForEach((currentNode) => {
+      arrayTest.push(currentNode.data);
+    });
+    expect(arrayTest).toEqual([8, 4, 67, 1, 5, 9, 324, 3, 7, 23, 6345]);
   });
 });

@@ -24,6 +24,7 @@ export default class Tree {
 
     return node;
   }
+
   #buildTree(array) {
     const sortedUniqueArray = removeDuplicatesSorted(mergeSort(array));
     return this.#sortedArrayToBSTRecur(
@@ -74,11 +75,54 @@ export default class Tree {
 
     return root;
   }
+
+  #getSuccessor(currentRoot = this.root) {
+    currentRoot = currentRoot.right;
+    while (currentRoot !== null && currentRoot.left !== null) {
+      currentRoot = currentRoot.left;
+    }
+    return currentRoot;
+  }
+
+  deleteItem(value, root = this.root) {
+    if (root === null) {
+      return root;
+    }
+
+    if (root.data > value) {
+      root.left = this.deleteItem(value, root.left);
+    } else if (root.data < value) {
+      root.right = this.deleteItem(value, root.right);
+    } else {
+      if (root.left === null) {
+        return root.right;
+      }
+      if (root.right === null) {
+        return root.left;
+      }
+
+      const successor = this.#getSuccessor(root);
+      root.data = successor.data;
+      root.right = this.deleteItem(successor.data, successor);
+    }
+
+    return root;
+  }
+
+  levelOrderForEach(callback) {
+    if (callback == undefined) throw new Error("Callback function is required");
+    const queue = [];
+    queue.push(this.root);
+
+    while (queue.length !== 0) {
+      const currentNode = queue.shift();
+      if (currentNode == null) continue;
+      callback(currentNode);
+      queue.push(currentNode.left);
+      queue.push(currentNode.right);
+    }
+  }
 }
 
-const emptyTree = new Tree();
-emptyTree.insert(3);
-emptyTree.insert(2);
-emptyTree.insert(1);
-
-emptyTree.prettyPrint();
+const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+tree.prettyPrint();
