@@ -111,8 +111,7 @@ export default class Tree {
 
   levelOrderForEach(callback) {
     if (callback == undefined) throw new Error("Callback function is required");
-    const queue = [];
-    queue.push(this.root);
+    const queue = [this.root];
 
     while (queue.length !== 0) {
       const currentNode = queue.shift();
@@ -122,7 +121,64 @@ export default class Tree {
       queue.push(currentNode.right);
     }
   }
+
+  preOrderForEach(callback, rootNode = this.root) {
+    if (callback == undefined) throw new Error("Callback function is required");
+
+    if (rootNode == null) return;
+    callback(rootNode);
+    this.preOrderForEach(callback, rootNode.left);
+    this.preOrderForEach(callback, rootNode.right);
+  }
+
+  inOrderForEach(callback, rootNode = this.root) {
+    if (callback == undefined) throw new Error("Callback function is required");
+
+    if (rootNode == null) return;
+    this.preOrderForEach(callback, rootNode.left);
+    callback(rootNode);
+    this.preOrderForEach(callback, rootNode.right);
+  }
+
+  postOrderForEach(callback, rootNode = this.root) {
+    if (callback == undefined) throw new Error("Callback function is required");
+
+    if (rootNode == null) return;
+    this.preOrderForEach(callback, rootNode.left);
+    this.preOrderForEach(callback, rootNode.right);
+    callback(rootNode);
+  }
+
+  #findHeight(rootNode) {
+    if (rootNode == null) return -1;
+
+    const leftHeight = this.#findHeight(rootNode.left);
+    const rightHeight = this.#findHeight(rootNode.right);
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  #findNode(data, root = this.#root) {
+    if (root == null) return null;
+    if (root.data == data) return root;
+    if (data < root.data) {
+      return this.#findNode(data, root.left);
+    }
+    if (data > root.data) {
+      return this.#findNode(data, root.right);
+    }
+
+    return root;
+  }
+
+  height(value = null) {
+    if (value == null) return this.#findHeight(this.root);
+    if (!this.includes(value)) return undefined;
+    const nodeToFind = this.#findNode(value);
+    return this.#findHeight(nodeToFind);
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 tree.prettyPrint();
+console.log(tree.height(67));

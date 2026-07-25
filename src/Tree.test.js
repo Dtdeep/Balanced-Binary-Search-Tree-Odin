@@ -54,6 +54,20 @@ describe("Testing Tree Class' query methods", () => {
     expect(tree.includes(293241)).toBe(false);
     expect(tree.includes(99)).toBe(false);
   });
+
+  test("height returns undefined when value is not in the tree", () => {
+    expect(tree.height(3245235235)).toBe(undefined);
+  });
+
+  test("height() returns the height of the Tree", () => {
+    const treeHeight = new Tree([100]);
+    expect(tree.height()).toBe(3);
+    expect(treeHeight.height()).toBe(0);
+  });
+
+  test("height(value) returns the height of the root node with the given value", () => {
+    expect(tree.height(67)).toBe(2);
+  });
 });
 
 describe("Testing Tree Class' command methods", () => {
