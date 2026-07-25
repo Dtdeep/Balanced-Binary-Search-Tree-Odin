@@ -68,6 +68,15 @@ describe("Testing Tree Class' query methods", () => {
   test("height(value) returns the height of the root node with the given value", () => {
     expect(tree.height(67)).toBe(2);
   });
+  test("depth(value) returns the depth of the node that has the given value [1]", () => {
+    expect(tree.depth(67)).toBe(1);
+  });
+  test("depth(value) returns the depth of the node that has the given value [2]", () => {
+    expect(tree.depth(9)).toBe(2);
+  });
+  test("depth(value) returns the depth of the node that has the given value [3]", () => {
+    expect(tree.depth(7)).toBe(3);
+  });
 });
 
 describe("Testing Tree Class' command methods", () => {
@@ -151,6 +160,7 @@ describe("Testing Tree Class' command methods", () => {
     });
     expect(arrayTest).toEqual([2, 1, 3]);
   });
+
   test("levelOrderForEach(callback) should traverse a long Balanced BST", () => {
     const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
     const arrayTest = [];

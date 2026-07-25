@@ -177,8 +177,28 @@ export default class Tree {
     const nodeToFind = this.#findNode(value);
     return this.#findHeight(nodeToFind);
   }
+
+  #findDepth(value, root = this.root) {
+    if (root == null) return undefined;
+    let depth = 0;
+    if (root.data == value) return depth;
+    if (value < root.data) {
+      depth += this.#findDepth(value, root.left) + 1;
+    }
+
+    if (value > root.data) {
+      depth += this.#findDepth(value, root.right) + 1;
+    }
+
+    return depth;
+  }
+
+  depth(value) {
+    if (!this.includes(value)) return undefined;
+    return this.#findDepth(value);
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 tree.prettyPrint();
-console.log(tree.height(67));
+console.log(tree.depth(23));
