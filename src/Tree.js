@@ -223,14 +223,50 @@ export default class Tree {
   }
 }
 
-const tree = new Tree([5]);
-tree.insert(3);
-tree.insert(8);
-tree.insert(2);
-tree.insert(7);
-tree.insert(9);
-tree.insert(1);
-tree.prettyPrint();
+const tree = new Tree([5, 5, 8, 46, 89, 44, 99, 67]);
+
 console.log(tree.isBalanced());
+console.log("--- level order ---");
+tree.levelOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  preOrder ---");
+tree.preOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  postOrder ---");
+tree.postOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  inOrder ---");
+tree.inOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  ENDD ---");
+
+tree.insert(103);
+tree.insert(5464);
+tree.insert(567);
+tree.insert(444);
+tree.insert(180);
+console.log("b4 rebalace", tree.isBalanced());
 tree.reBalance();
-console.log(tree.isBalanced());
+console.log("after rebalance", tree.isBalanced());
+
+console.log("--- level order ---");
+tree.levelOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  preOrder ---");
+tree.preOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  postOrder ---");
+tree.postOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  inOrder ---");
+tree.inOrderForEach((currentNode) => {
+  console.log(currentNode.data);
+});
+console.log("---  ENDD ---");
