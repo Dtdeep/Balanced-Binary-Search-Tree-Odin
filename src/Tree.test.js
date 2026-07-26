@@ -77,6 +77,26 @@ describe("Testing Tree Class' query methods", () => {
   test("depth(value) returns the depth of the node that has the given value [3]", () => {
     expect(tree.depth(7)).toBe(3);
   });
+
+  test("isBalanced() work properly 1", () => {
+    const treeE = new Tree([1, 7, 4]);
+    treeE.insert(6);
+    treeE.insert(8);
+    expect(treeE.isBalanced()).toBe(true);
+    treeE.insert(9);
+    expect(treeE.isBalanced()).toBe(false);
+  });
+
+  test("isBalanced() work properly 2", () => {
+    const treeS = new Tree([5]);
+    treeS.insert(3);
+    treeS.insert(8);
+    treeS.insert(2);
+    treeS.insert(7);
+    treeS.insert(9);
+    treeS.insert(1);
+    expect(treeS.isBalanced()).toBe(false);
+  });
 });
 
 describe("Testing Tree Class' command methods", () => {

@@ -197,8 +197,36 @@ export default class Tree {
     if (!this.includes(value)) return undefined;
     return this.#findDepth(value);
   }
+
+  isBalanced() {
+    let isBalanced = true;
+
+    this.postOrderForEach((currentNode) => {
+      const rightHeight = this.#findHeight(currentNode.right);
+      const leftHeight = this.#findHeight(currentNode.left);
+      const difference = Math.abs(rightHeight - leftHeight);
+
+      if (difference > 1) {
+        isBalanced = false;
+      }
+    });
+
+    return isBalanced;
+    //check everynode if there is a height difference
+
+    //checking only the root node's left and right doesnt work cause the left node could be unbalanced themselve. like the left node has a left height of 3 and a right heihgt of 0  but to the root he doesnt care its height is only 3
+    //how do we know if something is balanced?
+    //it is balanced if the difference of the height of the left and right subtree is only at most one
+    //how do we know when it becomes unbalanced? if one node has more than 1 children than the other nodes
+  }
 }
 
-const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const tree = new Tree([5]);
+tree.insert(3);
+tree.insert(8);
+tree.insert(2);
+tree.insert(7);
+tree.insert(9);
+tree.insert(1);
 tree.prettyPrint();
-console.log(tree.depth(23));
+console.log(tree.isBalanced());
