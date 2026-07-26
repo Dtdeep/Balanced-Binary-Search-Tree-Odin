@@ -135,17 +135,17 @@ export default class Tree {
     if (callback == undefined) throw new Error("Callback function is required");
 
     if (rootNode == null) return;
-    this.preOrderForEach(callback, rootNode.left);
+    this.inOrderForEach(callback, rootNode.left);
     callback(rootNode);
-    this.preOrderForEach(callback, rootNode.right);
+    this.inOrderForEach(callback, rootNode.right);
   }
 
   postOrderForEach(callback, rootNode = this.root) {
     if (callback == undefined) throw new Error("Callback function is required");
 
     if (rootNode == null) return;
-    this.preOrderForEach(callback, rootNode.left);
-    this.preOrderForEach(callback, rootNode.right);
+    this.postOrderForEach(callback, rootNode.left);
+    this.postOrderForEach(callback, rootNode.right);
     callback(rootNode);
   }
 
@@ -212,12 +212,14 @@ export default class Tree {
     });
 
     return isBalanced;
-    //check everynode if there is a height difference
+  }
 
-    //checking only the root node's left and right doesnt work cause the left node could be unbalanced themselve. like the left node has a left height of 3 and a right heihgt of 0  but to the root he doesnt care its height is only 3
-    //how do we know if something is balanced?
-    //it is balanced if the difference of the height of the left and right subtree is only at most one
-    //how do we know when it becomes unbalanced? if one node has more than 1 children than the other nodes
+  reBalance() {
+    const newArray = [];
+    this.inOrderForEach((currentNode) => {
+      newArray.push(currentNode.data);
+    });
+    this.#root = this.#buildTree(newArray);
   }
 }
 
@@ -229,4 +231,6 @@ tree.insert(7);
 tree.insert(9);
 tree.insert(1);
 tree.prettyPrint();
+console.log(tree.isBalanced());
+tree.reBalance();
 console.log(tree.isBalanced());

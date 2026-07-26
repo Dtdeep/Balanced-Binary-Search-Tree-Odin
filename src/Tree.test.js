@@ -78,16 +78,18 @@ describe("Testing Tree Class' query methods", () => {
     expect(tree.depth(7)).toBe(3);
   });
 
-  test("isBalanced() work properly 1", () => {
+  test("isBalanced() and reBalance() work properly 1", () => {
     const treeE = new Tree([1, 7, 4]);
     treeE.insert(6);
     treeE.insert(8);
     expect(treeE.isBalanced()).toBe(true);
     treeE.insert(9);
     expect(treeE.isBalanced()).toBe(false);
+    treeE.reBalance();
+    expect(treeE.isBalanced()).toBe(true);
   });
 
-  test("isBalanced() work properly 2", () => {
+  test("isBalanced() and reBalance() work properly 2", () => {
     const treeS = new Tree([5]);
     treeS.insert(3);
     treeS.insert(8);
@@ -96,6 +98,8 @@ describe("Testing Tree Class' query methods", () => {
     treeS.insert(9);
     treeS.insert(1);
     expect(treeS.isBalanced()).toBe(false);
+    treeS.reBalance();
+    expect(treeS.isBalanced()).toBe(true);
   });
 });
 
